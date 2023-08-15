@@ -1,0 +1,125 @@
+﻿@model IEnumerable<PersonelProjesiEntity.Personel>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Personel/_LayoutZombiz.cshtml";
+}
+@section personelprojesistyle{
+    <style>
+        footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+}
+
+<h2>Personeller</h2>
+<br />
+@if (TempData["DeleteErrorMsg"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>DİKKAT!</strong> @TempData["DeleteErrorMsg"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+@if (TempData["DeleteSuccessMsg"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>DİKKAT!</strong> @TempData["DeleteSuccessMsg"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+
+@if (TempData["AddErrorMsg"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>DİKKAT!</strong> @TempData["AddErrorMsg"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+@if (TempData["AddSuccessMsg"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>DİKKAT!</strong> @TempData["AddSuccessMsg"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+<p>
+    @*@Html.ActionLink("Yeni Personel Ekle", "Add", "Personel", null,
+    new { @class = "btn btn-primary" })*@
+    @*<input type="submit" value="Yeni Personel Ekle" class="btn btn-primary" ac formmethod="post" />*@
+    <input type="button" value="Yeni Personel Ekle" class="btn btn-primary" onclick="location.href='@Url.Action("Add", "Personel")'" />
+</p>
+<br />
+<table class="table table-hover">
+    <tr>
+        <th>
+            İsim
+        </th>
+        <th>
+            Soyisim
+        </th>
+        <th>
+            Email
+        </th>
+        <th>
+            Telefon Numarası
+        </th>
+        <th>
+            TC Kimlik numarası
+        </th>
+        <th>
+            Cinsiyet
+        </th>
+        <th>
+            Öğrenim Durumu
+        </th>
+
+        <th>İşlemler</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Surname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PhoneNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TCNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Gender)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EducationStatus)
+            </td>
+            <td>
+                @if (!item.IsDeleted)
+                {
+                    @*@Html.ActionLink("PERSONELİ SİL", "Delete", "Personel", new { id = item.Id }, new { @class = "btn btn-sm btn-success" })*@
+
+                    <form method="post" action="@Url.Action("Delete", "Personel", new { id = item.Id })">
+                        <button type="submit" class="btn btn-sm btn-success">PERSONELİ SİL</button>
+                    </form>
+                }
+
+                @*@Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })*@
+            </td>
+        </tr>
+    }
+
+</table>
